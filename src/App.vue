@@ -1,18 +1,38 @@
 <template>
     <h2>Работает</h2>
-    <app-button @click="isLoading=!isLoading">
-        <span class="loader" v-if="isLoading"></span>
+    <app-button 
+        :disabled="appStore.selectedItem === '---'"
+        @click="appStore.isLoading=!appStore.isLoading"
+    >
+        <span class="loader" v-if="appStore.isLoading"></span>
         <span v-else>Создать</span>
     </app-button>
+    <app-select v-model="appStore.selectedItem">
+        <option 
+            v-for="option in options" 
+            :key="option.value" 
+            :value="option.value"
+        >
+        {{ option.text }}
+        </option>
+    </app-select>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
+import { defineComponent } from "@vue/runtime-core"
+import { useAppStore } from "./stores/appStore"
 
 export default defineComponent({
-    data() {
+    setup() {
+        const appStore = useAppStore()
+        const options = [
+            {value: '---', text: 'Не выбрано'},
+            {value: 'deal', text: 'Сделка'},
+            {value: 'contact', text: 'Контакт'},
+            {value: 'company', text: 'Компания'},
+        ]
         return {
-            isLoading: false
+            appStore, options
         }
     }
 })
