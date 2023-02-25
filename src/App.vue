@@ -1,13 +1,13 @@
 <template>
     <h2>Работает</h2>
     <app-button 
-        :disabled="appStore.selectedItem === '---'"
-        @click="appStore.isLoading=!appStore.isLoading"
+        :disabled="(appStore.selectedItem === '---' || appStore.isLoading)"
+        @click="getItem"
     >
         <span class="loader" v-if="appStore.isLoading"></span>
         <span v-else>Создать</span>
     </app-button>
-    <select v-model="appStore.selectedItem">
+    <select v-model="appStore.selectedItem" class="appSelect">
         <option 
             v-for="option in options"
             :key="option.value" 
@@ -21,6 +21,8 @@
 <script lang="ts">
 import { defineComponent } from "@vue/runtime-core"
 import { useAppStore } from "./stores/appStore"
+import axios from 'axios'
+
 
 export default defineComponent({
     setup() {
@@ -33,6 +35,12 @@ export default defineComponent({
         ]
         return {
             appStore, options
+        }
+    },
+    methods: {
+        async getItem() {
+            this.appStore.isLoading = true
+            const data = await axios.get(`https://example.amocrm.ru/api/v4/leads?limit=2&page=1`)
         }
     }
 })
@@ -49,14 +57,21 @@ export default defineComponent({
     display: inline-block;
     box-sizing: border-box;
     animation: rotation 1s linear infinite;
-    }
+}
 
-    @keyframes rotation {
+.appSelect {
+    width: 200px;
+    font-size: 1.3rem;
+}
+
+@keyframes rotation {
     0% {
         transform: rotate(0deg);
     }
     100% {
         transform: rotate(360deg);
     }
-    } 
+} 
+
+
 </style>
