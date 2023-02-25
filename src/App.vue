@@ -7,15 +7,15 @@
         <span class="loader" v-if="appStore.isLoading"></span>
         <span v-else>Создать</span>
     </app-button>
-    <app-select v-model="appStore.selectedItem">
+    <select v-model="appStore.selectedItem">
         <option 
-            v-for="option in options" 
+            v-for="option in options"
             :key="option.value" 
             :value="option.value"
         >
         {{ option.text }}
         </option>
-    </app-select>
+    </select>
 </template>
 
 <script lang="ts">
