@@ -40,7 +40,7 @@ export default defineComponent({
     methods: {
         async getItem() {
             this.appStore.isLoading = true
-            const data = await axios.get(`https://example.amocrm.ru/api/v4/leads?limit=2&page=1`)
+            setTimeout(() => this.appStore.isLoading = false, 3000)
         }
     }
 })
