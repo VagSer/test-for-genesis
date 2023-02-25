@@ -40,7 +40,9 @@ export default defineComponent({
     methods: {
         async getItem() {
             this.appStore.isLoading = true
-            setTimeout(() => this.appStore.isLoading = false, 3000)
+            const data = await axios.get(`https://test.gnzs.ru/oauth/get-token.php`)
+            console.log(data)
+            this.appStore.isLoading = false
         }
     }
 })
